@@ -1,6 +1,9 @@
 <template>
   <div>
-    <p class="is-pulled-left">{{count}} items left</p>
+    <p class="is-pulled-left" >{{all}} items left</p></br>
+    <p class="is-pulled-left" >{{active}} items left</p></br>
+    <p class="is-pulled-left" >{{Completed}} items left</p></br>
+    
     <visibility-input/>
   </div>
 </template>
@@ -13,14 +16,27 @@ export default {
   components: {
     VisibilityInput
   },
+  data () {
+    return {
+      status: 'All'
+    }
+  },
   computed: {
     ...mapGetters(['todos']),
-    count: function () {
-      var result = 0
-      for (var i = 0; i < this.todos.length; i++) {
-        if (!this.todos[i].completed) result++
+    all () {
+      if (this.todos) {
+        return this.todos.length
       }
-      return result
+    },
+    active () {
+      if (this.todos) {
+        return this.todos.filter(todo => todo.completed === false).length
+      }
+    },
+    Completed () {
+      if (this.todos) {
+        return this.todos.filter(todo => todo.completed === true).length
+      }
     }
   }
 }
