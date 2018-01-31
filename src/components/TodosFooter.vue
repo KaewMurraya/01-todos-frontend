@@ -1,17 +1,13 @@
 <template>
   <div>
-    <p class="is-pulled-left" >{{all}} items left</p></br>
-    <p class="is-pulled-left" >{{active}} items left</p></br>
-    <p class="is-pulled-left" >{{Completed}} items left</p></br>
-    
+    <p class="is-pulled-left">{{item}} items left</p>
     <visibility-input/>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import VisibilityInput from '@/components/VisibilityInput'
-
+import { mapGetters } from 'vuex'
 export default {
   components: {
     VisibilityInput
@@ -22,20 +18,14 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['todos']),
-    all () {
-      if (this.todos) {
-        return this.todos.length
-      }
-    },
-    active () {
-      if (this.todos) {
-        return this.todos.filter(todo => todo.completed === false).length
-      }
-    },
-    Completed () {
-      if (this.todos) {
-        return this.todos.filter(todo => todo.completed === true).length
+    ...mapGetters(['todos', 'visibility', 'activeTodos', 'completedTodos', 'allTodos']),
+    item () {
+      if (this.visibility === 'all') {
+        return this.allTodos
+      } else if (this.visibility === 'active') {
+        return this.activeTodos
+      } else {
+        return this.completedTodos
       }
     }
   }
